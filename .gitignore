@@ -2,3 +2,4 @@
 node_modules
 .DS_Store
 device.js
+build-platform.sh

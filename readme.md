@@ -1,5 +1,43 @@
 # Control-node
 
+docker run
+```bash
+docker run -d \
+--privileged \
+--network=host \
+--name control-node \
+-e PRIVATE_KEY_PATH=SSH_PATH \
+-e TOKEN=TOKEN \
+-e MQTT_HOST=HOST \
+-e MQTT_USER=USER \
+-e MQTT_PASSWORD=PASSWORD \
+-v /dev:/dev \
+-v ~/.ssh:/root/.ssh \
+-v ./device.js:/usr/src/app/const/device.js \
+jeufore/control-node
+```
+
+docker-compose.yml
+```bash
+version: "3"
+services:
+  control:
+    image: jeufore/control-node
+    container_name: control-node
+    network_mode: host
+    privileged: true
+    environment: 
+      - PRIVATE_KEY_PATH=SSH_PATH #optional
+      - TOKEN=TOKEN #optional
+      - MQTT_HOST=HOST
+      - MQTT_USER=USER
+      - MQTT_PASSWORD=PASSWORD
+    volumes: 
+      - /dev:/dev #optional
+      - ./device.js:/usr/src/app/const/device.js
+      - ~/.ssh:/root/.ssh #optional
+```
+
 Insert **device.js** in const folder
 
 ```bash

@@ -24,8 +24,7 @@ function hexToRgb(hex) {
     return {
         red: number >> 16,
         green: (number >> 8) & 255,
-        blue: number & 255,
-        alpha: typeof options.alpha === 'number' ? options.alpha : alphaFromHex
+        blue: number & 255
     }
 }
 

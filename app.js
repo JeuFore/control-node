@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 const mqttClient = mqtt(process.env.MQTT_HOST, { username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD });
 
-const z2mClient = mqtt(process.env.MQTT_HOST_Z2M, { username: process.env.MQTT_USER_Z2M, password: process.env.MQTT_PASSWORD_Z2M });
+const z2mClient = mqtt(process.env.Z2M_MQTT_HOST, { username: process.env.Z2M_MQTT_USER, password: process.env.Z2M_MQTT_PASSWORD });
 
 actions(mqttClient, z2mClient);
 

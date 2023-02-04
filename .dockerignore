@@ -2,4 +2,6 @@ node_modules
 npm-debug.log
 Dockerfile
 .dockerignore
-device.js
+devices.js
+build-platform.sh
+.env

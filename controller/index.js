@@ -1,4 +1,4 @@
-const DEVICE = require('../const/device.js');
+const { mqtt } = require('../const/devices.js');
 
 module.exports = DeviceController = (mqttClient) => {
 
@@ -9,7 +9,7 @@ module.exports = DeviceController = (mqttClient) => {
                 type: 'error',
                 message: 'Param null, insert device'
             })
-        device = DEVICE.find(({ deviceName }) => deviceName === device)
+        device = mqtt.find(({ deviceName }) => deviceName === device)
         if (!device)
             return res.status(400).json({
                 type: 'error',
@@ -20,8 +20,8 @@ module.exports = DeviceController = (mqttClient) => {
                 type: 'error',
                 message: 'Feature not exist'
             })
-        mqttClient.publish(`gladys/device/mqtt:${device.deviceRoom}:${device.deviceMQTTName}/feature/mqtt:${device.deviceRoom}:${device.deviceMQTTName}:${feature ? feature : 'state'}/state`, state.toString());
-        mqttClient.publish(`gladys/master/device/mqtt:${device.deviceRoom}:${device.deviceMQTTName}/feature/mqtt:${device.deviceRoom}:${device.deviceMQTTName}:${feature ? feature : 'state'}/state`, state.toString());
+        mqttClient.publish(`gladys/device/mqtt:${device.deviceMQTTName}/feature/mqtt:${device.deviceMQTTName}:${feature ? feature : 'state'}/state`, state.toString());
+        mqttClient.publish(`gladys/master/device/mqtt:${device.deviceMQTTName}/feature/mqtt:${device.deviceMQTTName}:${feature ? feature : 'state'}/state`, state.toString());
         return res.json({
             type: 'success',
             message: 'Device state is changed'

@@ -1,28 +1,31 @@
+require('dotenv').config();
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const { checkValidToken } = require('./middleware/token');
-const { subscribe } = require('./controller/subscribe');
+const app = express();
 
-var app = express();
+const checkValidToken = require('./middleware/token');
+
+const mqtt = require('./utils/mqtt');
+const actions = require('./actions');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-require('dotenv').config();
 
-const mqtt = require('mqtt');
-var client = mqtt.connect(process.env.MQTT_HOST, { username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD });
-setTimeout(() => {
-    if (!client.connected)
-        throw new Error('Le client MQTT ne parvient pas à se connecter');
-}, 5000);
+const mqttClient = mqtt(process.env.MQTT_HOST, { username: process.env.MQTT_USER, password: process.env.MQTT_PASSWORD });
 
-subscribe(client);
+const z2mClient = mqtt(process.env.MQTT_HOST_Z2M, { username: process.env.MQTT_USER_Z2M, password: process.env.MQTT_PASSWORD_Z2M });
+
+actions(mqttClient, z2mClient);
 
 const router = express.Router();
 app.use('/api/v1', router);
-require('./routes/index')(router, client, checkValidToken);
+router.get('/healthz', (ctx) => {
+    ctx.body = mqttClient.connected && z2mClient.connected ? 'OK' : 'NOT OK';
+    ctx.status = mqttClient.connected && z2mClient.connected ? 200 : 500;
+});
+require('./routes/index')(router, mqttClient, checkValidToken);
 
 module.exports = app;

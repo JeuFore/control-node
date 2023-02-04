@@ -2,10 +2,11 @@ const { NodeSSH } = require('node-ssh')
 const ssh = new NodeSSH();
 
 class VirshController {
-    constructor({ ip, name, username }) {
+    constructor({ ip, name, username, sshKey }) {
         this.ip = ip;
         this.name = name;
         this.username = username;
+        this.sshKey = sshKey;
     }
 
     async setState(state) {
@@ -21,7 +22,7 @@ class VirshController {
             await ssh.connect({
                 host: this.ip,
                 username: this.username,
-                privateKey: process.env.PRIVATE_KEY_PATH
+                privateKey: this.sshKey
             })
 
             await ssh.execCommand(`sudo virsh start ${this.name}`)
@@ -35,7 +36,7 @@ class VirshController {
             await ssh.connect({
                 host: this.ip,
                 username: this.username,
-                privateKey: process.env.PRIVATE_KEY_PATH
+                privateKey: this.sshKey
             })
 
             await ssh.execCommand(`sudo virsh shutdown ${this.name} --mode acpi`)
@@ -49,7 +50,7 @@ class VirshController {
             await ssh.connect({
                 host: this.ip,
                 username: this.username,
-                privateKey: process.env.PRIVATE_KEY_PATH
+                privateKey: this.sshKey
             })
 
             const { stdout } = await ssh.execCommand(`sudo virsh domstate ${this.name}`)

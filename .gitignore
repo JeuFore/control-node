@@ -1,5 +1,4 @@
 .env
 node_modules
-.DS_Store
-device.js
+devices.js
 build-platform.sh

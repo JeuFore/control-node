@@ -1,9 +1,6 @@
 function intToRgb(intColor) {
-    // eslint-disable-next-line no-bitwise
     const red = intColor >> 16;
-    // eslint-disable-next-line no-bitwise
     const green = (intColor - (red << 16)) >> 8;
-    // eslint-disable-next-line no-bitwise
     const blue = intColor - (red << 16) - (green << 8);
 
     return {

@@ -4,7 +4,7 @@ const ssh = new NodeSSH();
 const ping = require('ping');
 
 class WolDevice {
-    constructor({ mac, ip, supportedOff, username }) {
+    constructor({ mac, ip, supportedOff, username, sshKey }) {
         this.mac = mac;
         this.ip = ip;
         this.username = username;
@@ -20,7 +20,10 @@ class WolDevice {
     }
 
     async setOn() {
-        return wol.wake(this.mac)
+        return await wol.wake(this.mac, {
+            address: this.ip,
+            port: 9
+        })
     }
 
     async setOff() {
@@ -29,7 +32,7 @@ class WolDevice {
                 await ssh.connect({
                     host: this.ip,
                     username: this.username,
-                    privateKey: process.env.PRIVATE_KEY_PATH
+                    privateKey: this.sshKey
                 })
                 await ssh.execCommand('sudo /sbin/shutdown -h now')
                 ssh.dispose()

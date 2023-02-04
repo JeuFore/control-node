@@ -16,7 +16,7 @@ async function httpRequest(url, method, data = {}) {
             return response.data;
         })
         .catch(e => {
-            throw new Error('The server returned a negative response : ' + e.response.statusText);
+            console.error('The server returned a negative response : ' + e.response.statusText);
         })
 }
 

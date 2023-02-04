@@ -22,9 +22,9 @@ actions(mqttClient, z2mClient);
 
 const router = express.Router();
 app.use('/api/v1', router);
-router.get('/healthz', (ctx) => {
-    ctx.body = mqttClient.connected && z2mClient.connected ? 'OK' : 'NOT OK';
-    ctx.status = mqttClient.connected && z2mClient.connected ? 200 : 500;
+router.get('/healthz', (req, res) => {
+    const code = mqttClient.connected && z2mClient.connected ? 200 : 500;
+    return res.status(code).send(mqttClient.connected && z2mClient.connected ? 'OK' : 'NOT OK')
 });
 require('./routes/index')(router, mqttClient, checkValidToken);
 

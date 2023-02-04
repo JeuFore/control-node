@@ -43,7 +43,7 @@ docker run -d \
     ghcr.io/jeufore/control-node:latest
 ```
 
-### Insert **devices.js** in const folder
+Insert **devices.js** in const folder
 
 ### For the development
 

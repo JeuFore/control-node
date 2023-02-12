@@ -8,6 +8,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm rebuild --build-from-source
+
 COPY . .
 
 CMD [ "npm", "start" ]

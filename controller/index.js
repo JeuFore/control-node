@@ -29,7 +29,7 @@ module.exports = DeviceController = (mqttClient) => {
     }
 
     async function getDevices(req, res) {
-        const devices = [...DEVICE];
+        const devices = [...mqtt];
         devices.forEach(device => {
             delete device.deviceParam
             delete device.deviceInstance
@@ -40,12 +40,12 @@ module.exports = DeviceController = (mqttClient) => {
         });
         return res.status(200).json({
             type: 'success',
-            data: DEVICE
+            data: mqtt
         })
     }
 
     async function getDevice(req, res) {
-        let device = DEVICE.find(({ deviceName, children }) => deviceName === req.query.name || children.find(({ deviceName }) => deviceName === req.query.name))
+        let device = mqtt.find(({ deviceName, children }) => deviceName === req.query.name || children.find(({ deviceName }) => deviceName === req.query.name))
         if (!device)
             return res.status(400).json({
                 type: 'error',

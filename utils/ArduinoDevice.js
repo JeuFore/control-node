@@ -1,8 +1,9 @@
-const axios = require('axios').default
+const axios = require('axios').default;
+const { SerialPort } = require('serialport');
 
 class ArduinoDevice {
-    constructor({ arduino, data_pin, code, name }) {
-        this.arduino = arduino;
+    constructor({ path, data_pin, code, name }) {
+        this.arduino = new SerialPort({ path, baudRate: 9600 });
         this.jsonMessage = {
             function_name: 'emit_433',
             parameters: {

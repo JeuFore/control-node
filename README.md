@@ -59,15 +59,15 @@ npm start
 ```
 
 ## .env
-| Parameter             | Example value                                 | Description                                |
-|-----------------------|--------------------------------------------------|--------------------------------------------|
-| TOKEN         | "KQIBAAKCAgEAz2KJCem7nuff5e4jbXebK9f0L7FZ3"               | Token to use the API # optional                         |
-| MQTT_HOST             | "mqtt://192.168.1.22:1883"                   | Mqtt host                     |
-| MQTT_USER              | "user"                                         |     Mqtt user                 |
-| MQTT_PASSWORD              | "vIaVKkP3wiyy"           | Mqtt password        |
-| Z2M_MQTT_HOST             | "mqtt://192.168.1.22:1884"                   | Z2m mqtt host                     |
-| Z2M_MQTT_USER              | "user"                                         |     Z2m mqtt user                 |
-| Z2M_MQTT_PASSWORD              | "kopaznfze89d"           | Z2m Mqtt password        |
+| Parameter             | Example value                                     | Description                               |
+|-----------------------|---------------------------------------------------|-------------------------------------------|
+| TOKEN                 | "KQIBAAKCAgEAz2KJCem7nuff5e4jbXebK9f0L7FZ3"       | Token to use the API # optional           |
+| MQTT_HOST             | "mqtt://192.168.1.22:1883"                        | Mqtt host                                 |
+| MQTT_USER             | "user"                                            |     Mqtt user                             |
+| MQTT_PASSWORD         | "vIaVKkP3wiyy"                                    | Mqtt password                             |
+| Z2M_MQTT_HOST         | "mqtt://192.168.1.22:1884"                        | Z2m mqtt host                             |
+| Z2M_MQTT_USER         | "user"                                            |     Z2m mqtt user                         |
+| Z2M_MQTT_PASSWORD     | "kopaznfze89d"                                    | Z2m Mqtt password                         |
 <br/>
 
 ## devices.js
@@ -76,9 +76,7 @@ const WolDevice = require('../utils/WolDevice'); // If use Wol
 const GoveeDevice = require('../utils/GoveeDevice'); // If use Govee
 const ArduinoDevice = require('../utils/ArduinoDevice'); // If use Arduino
 const VirshController = require('../utils/VirshController'); // If use Virsh
-
-const SerialPort = require('serialport') // If use Arduino
-const Arduino = new SerialPort("/dev/cu.usbmodem14201", { baudRate: 9600 }) // If use Arduino
+const Zwavejs = require('../utils/Zwavejs');
 
 module.exports = {
     z2m: {
@@ -140,7 +138,7 @@ module.exports = {
         {
             deviceName: 'Power plug',
             deviceMQTTName: 'power plug',
-            deviceParam: { arduino: Arduino, data_pin: 8, code: { on: 1381717, off: 1381716 }, name: 'Power plug' },
+            deviceParam: { path: '/dev/cu.usbmodem14201', data_pin: 8, code: { on: 1381717, off: 1381716 }, name: 'Power plug' },
             deviceInstance: ArduinoDevice,
             features: [
                 'state',
@@ -151,6 +149,19 @@ module.exports = {
                 port: 18495
             },
             children: []
+        },
+        {
+            deviceName: 'FGMS001',
+            deviceMQTTName: 'fgms001',
+            deviceParam: { deviceName: 'FGMS001' },
+            deviceInstance: Zwavejs,
+            features: [
+                'motion',
+                'temperature',
+                'luminance',
+                'battery'
+            ],
+            sensor: true
         }
     ]
 }

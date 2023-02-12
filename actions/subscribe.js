@@ -27,7 +27,7 @@ module.exports = (mqttClient) => {
                     }
                 }
             });
-        if (device.wemore?.emulate) {
+        if (device.wemore && device.wemore.emulate) {
             const wemoreDevice = wemore.Emulate({ friendlyName: device.deviceName, port: device.wemore.port });
             wemoreDevice.on('state', (binaryState) => {
                 mqttClient.publish(`gladys/device/mqtt:${device.deviceMQTTName}/feature/mqtt:${device.deviceMQTTName}:state/state`, binaryState.toString());

@@ -21,7 +21,7 @@
   "main": "app.js",
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2"
+    "@commitlint/config-conventional": "^17.6.3"
   },
   "repository": {
     "type": "git",

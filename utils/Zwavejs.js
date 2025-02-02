@@ -7,7 +7,7 @@ class Zwavejs {
 
     getSubscribedTopic(feature) {
         const zwaveFeature = zwaveCommand[feature];
-        return `zwave2mqtt/${this.deviceName}/${zwaveFeature}`
+        return `zwave/${this.deviceName}/${zwaveFeature}`
     }
 
     getMotion({ value }) {
